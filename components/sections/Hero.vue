@@ -31,8 +31,8 @@
                 class="text-bcSlate mt-5 mb-0 max-w-lg leading-[1.3] text-bcLg"
             >
                 I'm a computer engineer specializing in building interfaces and
-                applications for the web.Seeking an opportunity to join a dynamic software team,I am eager to enhance 
-                my collaboration skills and further to develop my Frontend development skills in a stimulating work environment.
+                applications for the web. Seeking an opportunity to join a dynamic software team, I am eager to enhance
+                my collaboration skills and further to develop my software development skills in a stimulating work environment.
             </p>
             <a
                 v-animate-delay:fade-up="1600"

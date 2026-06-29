@@ -42,13 +42,6 @@
       >
         {{ link.name }}
       </NuxtLink>
-      <a
-        href="/ Featured Projectchenghung_cv.pdf"
-        target="_blank"
-        class="bigButton text-bcXs py-4 px-12 mx-auto mt-8 min-w-max"
-      >
-        Resume
-      </a>
     </div>
   </div>
 </template>

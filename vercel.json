@@ -1,0 +1,5 @@
+{
+  "installCommand": "yarn install --ignore-engines",
+  "buildCommand": "yarn generate",
+  "outputDirectory": "dist"
+}

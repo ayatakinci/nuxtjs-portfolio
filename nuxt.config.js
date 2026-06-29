@@ -49,14 +49,6 @@ export default {
         "@nuxtjs/pwa",
         // https://go.nuxtjs.dev/content
         "@nuxt/content",
-        // https://app.storyblok.com/
-        [
-            "storyblok-nuxt",
-            {
-                accessToken: "MBufw4IZxQZrYPzuC5XrCgtt",
-                cacheProvider: "memory",
-            },
-        ],
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios

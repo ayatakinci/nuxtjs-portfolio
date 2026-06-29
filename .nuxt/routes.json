@@ -2,13 +2,13 @@
   {
     "name": "404",
     "path": "/404",
-    "component": "C:\\\\Users\\\\hayat\\\\Desktop\\\\nuxtjs-portfolio\\\\pages\\\\404.vue",
+    "component": "C:\\\\Users\\\\BCA\\\\OneDrive\\\\Desktop\\\\project\\\\New folder\\\\nuxtjs-portfolio\\\\pages\\\\404.vue",
     "chunkName": "pages/404"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\hayat\\\\Desktop\\\\nuxtjs-portfolio\\\\pages\\\\index.vue",
+    "component": "C:\\\\Users\\\\BCA\\\\OneDrive\\\\Desktop\\\\project\\\\New folder\\\\nuxtjs-portfolio\\\\pages\\\\index.vue",
     "chunkName": "pages/index"
   }
 ]

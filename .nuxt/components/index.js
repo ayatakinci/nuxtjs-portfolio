@@ -1,5 +1,3 @@
-import { wrapFunctional } from './utils'
-
 export { default as AppBar } from '../..\\components\\AppBar.vue'
 export { default as Drawer } from '../..\\components\\Drawer.vue'
 export { default as Footer } from '../..\\components\\Footer.vue'
@@ -15,17 +13,33 @@ export { default as SectionsHero } from '../..\\components\\sections\\Hero.vue'
 export { default as SectionsJobs } from '../..\\components\\sections\\Jobs.vue'
 export { default as SectionsProjects } from '../..\\components\\sections\\Projects.vue'
 
-export const LazyAppBar = import('../..\\components\\AppBar.vue' /* webpackChunkName: "components/app-bar" */).then(c => wrapFunctional(c.default || c))
-export const LazyDrawer = import('../..\\components\\Drawer.vue' /* webpackChunkName: "components/drawer" */).then(c => wrapFunctional(c.default || c))
-export const LazyFooter = import('../..\\components\\Footer.vue' /* webpackChunkName: "components/footer" */).then(c => wrapFunctional(c.default || c))
-export const LazyLoading = import('../..\\components\\Loading.vue' /* webpackChunkName: "components/loading" */).then(c => wrapFunctional(c.default || c))
-export const LazyMenu = import('../..\\components\\Menu.vue' /* webpackChunkName: "components/menu" */).then(c => wrapFunctional(c.default || c))
-export const LazyOverlay = import('../..\\components\\Overlay.vue' /* webpackChunkName: "components/overlay" */).then(c => wrapFunctional(c.default || c))
-export const LazyProject = import('../..\\components\\Project.vue' /* webpackChunkName: "components/project" */).then(c => wrapFunctional(c.default || c))
-export const LazySide = import('../..\\components\\Side.vue' /* webpackChunkName: "components/side" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsAbout = import('../..\\components\\sections\\About.vue' /* webpackChunkName: "components/sections-about" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsContact = import('../..\\components\\sections\\Contact.vue' /* webpackChunkName: "components/sections-contact" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsGithubElement = import('../..\\components\\sections\\GithubElement.vue' /* webpackChunkName: "components/sections-github-element" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsHero = import('../..\\components\\sections\\Hero.vue' /* webpackChunkName: "components/sections-hero" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsJobs = import('../..\\components\\sections\\Jobs.vue' /* webpackChunkName: "components/sections-jobs" */).then(c => wrapFunctional(c.default || c))
-export const LazySectionsProjects = import('../..\\components\\sections\\Projects.vue' /* webpackChunkName: "components/sections-projects" */).then(c => wrapFunctional(c.default || c))
+// nuxt/nuxt.js#8607
+function wrapFunctional(options) {
+  if (!options || !options.functional) {
+    return options
+  }
+
+  const propKeys = Array.isArray(options.props) ? options.props : Object.keys(options.props || {})
+
+  return {
+    render(h) {
+      const attrs = {}
+      const props = {}
+
+      for (const key in this.$attrs) {
+        if (propKeys.includes(key)) {
+          props[key] = this.$attrs[key]
+        } else {
+          attrs[key] = this.$attrs[key]
+        }
+      }
+
+      return h(options, {
+        on: this.$listeners,
+        attrs,
+        props,
+        scopedSlots: this.$scopedSlots,
+      }, this.$slots.default)
+    }
+  }
+}

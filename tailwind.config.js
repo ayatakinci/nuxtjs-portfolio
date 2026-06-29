@@ -1,14 +1,13 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
-    mode: "jit",
-    purge: [
+    content: [
         "./components/**/*.{vue,js}",
         "./layouts/**/*.vue",
         "./pages/**/*.vue",
         "./plugins/**/*.{js,ts}",
         "./nuxt.config.{js,ts}",
     ],
-    darkMode: false, // or 'media' or 'class'
+    darkMode: false,
     theme: {
         extend: {
             fontFamily: {
@@ -34,7 +33,7 @@ module.exports = {
             },
             colors: {
                 emerald: colors.emerald,
-                gray: colors.trueGray,
+                gray: colors.neutral,
                 cwc: {
                     100: "#000000",
                 },
@@ -72,9 +71,6 @@ module.exports = {
             transitionDuration: {
                 250: "250ms",
             },
-            outline: {
-                bcStyle: ["2px dashed #64ffda", "3px"],
-            },
             inset: {
                 sideLg: "40px",
                 sideMd: "20px",
@@ -92,9 +88,6 @@ module.exports = {
             md: "768px",
             lg: "1080px",
         },
-    },
-    variants: {
-        extend: {},
     },
     plugins: [require("@tailwindcss/aspect-ratio")],
 };

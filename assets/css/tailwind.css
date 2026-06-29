@@ -28,7 +28,8 @@ html {
 }
 
 :focus {
-    @apply outline-bcStyle;
+    outline: 2px dashed #64ffda;
+    outline-offset: 3px;
 }
 
 /* Scrollbar Styles */

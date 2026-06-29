@@ -12,13 +12,12 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_591d3bb2 from 'nuxt_plugin_plugin_591d3bb2' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_templatesplugin7cd14928_6b1ec5c1 from 'nuxt_plugin_templatesplugin7cd14928_6b1ec5c1' // Source: .\\templates.plugin.7cd14928.js (mode: 'all')
-import nuxt_plugin_pluginclient_53357368 from 'nuxt_plugin_pluginclient_53357368' // Source: .\\content\\plugin.client.js (mode: 'client')
-import nuxt_plugin_pluginserver_8e223620 from 'nuxt_plugin_pluginserver_8e223620' // Source: .\\content\\plugin.server.js (mode: 'server')
-import nuxt_plugin_workbox_0bcc3eb1 from 'nuxt_plugin_workbox_0bcc3eb1' // Source: .\\workbox.js (mode: 'client')
-import nuxt_plugin_metaplugin_22e9f231 from 'nuxt_plugin_metaplugin_22e9f231' // Source: .\\pwa\\meta.plugin.js (mode: 'all')
-import nuxt_plugin_axios_241b2ad5 from 'nuxt_plugin_axios_241b2ad5' // Source: .\\axios.js (mode: 'all')
+import nuxt_plugin_plugin_1b4df768 from 'nuxt_plugin_plugin_1b4df768' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_pluginclient_3c7141fc from 'nuxt_plugin_pluginclient_3c7141fc' // Source: .\\content\\plugin.client.js (mode: 'client')
+import nuxt_plugin_pluginserver_4780d08a from 'nuxt_plugin_pluginserver_4780d08a' // Source: .\\content\\plugin.server.js (mode: 'server')
+import nuxt_plugin_workbox_4c331fcb from 'nuxt_plugin_workbox_4c331fcb' // Source: .\\workbox.js (mode: 'client')
+import nuxt_plugin_metaplugin_5c59cd6a from 'nuxt_plugin_metaplugin_5c59cd6a' // Source: .\\pwa\\meta.plugin.js (mode: 'all')
+import nuxt_plugin_axios_231b8a6f from 'nuxt_plugin_axios_231b8a6f' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_animateDelayObserverclient_1bc9c628 from 'nuxt_plugin_animateDelayObserverclient_1bc9c628' // Source: ..\\plugins\\animateDelayObserver.client.js (mode: 'client')
 
 // Component: <ClientOnly>
@@ -48,7 +47,7 @@ Vue.component(Nuxt.name, Nuxt)
 
 Object.defineProperty(Vue.prototype, '$nuxt', {
   get() {
-    const globalNuxt = this.$root.$options.$nuxt
+    const globalNuxt = this.$root ? this.$root.$options.$nuxt : null
     if (process.client && !globalNuxt && typeof window !== 'undefined') {
       return window.$nuxt
     }
@@ -62,14 +61,15 @@ Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n
 const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext, config = {}) {
-  const router = await createRouter(ssrContext, config)
+  const store = null
+  const router = await createRouter(ssrContext, config, { store })
 
   // Create Root instance
 
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Ayat Akinci","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"portfolio","content":"Ayat Akinci portfolio page"}],"link":[],"style":[],"script":[]},
+    head: {"title":"Ayat Akinci","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"portfolio","content":"Ayat Akinci portfolio page"},{"hid":"charset","charset":"utf-8"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"portfolio-nuxt"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"portfolio-nuxt"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"portfolio-nuxt"}],"link":[{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.060c0ea6.json","hid":"manifest"}],"style":[],"script":[],"htmlAttrs":{"lang":"en"}},
 
     router,
     nuxt: {
@@ -94,6 +94,7 @@ async function createApp(ssrContext, config = {}) {
       },
 
       err: null,
+      errPageReady: false,
       dateErr: null,
       error (err) {
         err = err || null
@@ -105,6 +106,7 @@ async function createApp(ssrContext, config = {}) {
         }
         nuxt.dateErr = Date.now()
         nuxt.err = err
+        nuxt.errPageReady = false
         // Used in src/server.js
         if (ssrContext) {
           ssrContext.nuxt.error = err
@@ -134,6 +136,7 @@ async function createApp(ssrContext, config = {}) {
     req: ssrContext ? ssrContext.req : undefined,
     res: ssrContext ? ssrContext.res : undefined,
     beforeRenderFns: ssrContext ? ssrContext.beforeRenderFns : undefined,
+    beforeSerializeFns: ssrContext ? ssrContext.beforeSerializeFns : undefined,
     ssrContext
   })
 
@@ -183,32 +186,28 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_591d3bb2 === 'function') {
-    await nuxt_plugin_plugin_591d3bb2(app.context, inject)
+  if (typeof nuxt_plugin_plugin_1b4df768 === 'function') {
+    await nuxt_plugin_plugin_1b4df768(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_templatesplugin7cd14928_6b1ec5c1 === 'function') {
-    await nuxt_plugin_templatesplugin7cd14928_6b1ec5c1(app.context, inject)
+  if (process.client && typeof nuxt_plugin_pluginclient_3c7141fc === 'function') {
+    await nuxt_plugin_pluginclient_3c7141fc(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_pluginclient_53357368 === 'function') {
-    await nuxt_plugin_pluginclient_53357368(app.context, inject)
+  if (process.server && typeof nuxt_plugin_pluginserver_4780d08a === 'function') {
+    await nuxt_plugin_pluginserver_4780d08a(app.context, inject)
   }
 
-  if (process.server && typeof nuxt_plugin_pluginserver_8e223620 === 'function') {
-    await nuxt_plugin_pluginserver_8e223620(app.context, inject)
+  if (process.client && typeof nuxt_plugin_workbox_4c331fcb === 'function') {
+    await nuxt_plugin_workbox_4c331fcb(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_0bcc3eb1 === 'function') {
-    await nuxt_plugin_workbox_0bcc3eb1(app.context, inject)
+  if (typeof nuxt_plugin_metaplugin_5c59cd6a === 'function') {
+    await nuxt_plugin_metaplugin_5c59cd6a(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_metaplugin_22e9f231 === 'function') {
-    await nuxt_plugin_metaplugin_22e9f231(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_axios_241b2ad5 === 'function') {
-    await nuxt_plugin_axios_241b2ad5(app.context, inject)
+  if (typeof nuxt_plugin_axios_231b8a6f === 'function') {
+    await nuxt_plugin_axios_231b8a6f(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_animateDelayObserverclient_1bc9c628 === 'function') {
@@ -224,12 +223,14 @@ async function createApp(ssrContext, config = {}) {
 
   // Wait for async component to be resolved first
   await new Promise((resolve, reject) => {
-    const { route } = router.resolve(app.context.route.fullPath)
-    // Ignore 404s rather than blindly replacing URL
-    if (!route.matched.length && process.client) {
-      return resolve()
+    // Ignore 404s rather than blindly replacing URL in browser
+    if (process.client) {
+      const { route } = router.resolve(app.context.route.fullPath)
+      if (!route.matched.length) {
+        return resolve()
+      }
     }
-    router.replace(route, resolve, (err) => {
+    router.replace(app.context.route.fullPath, resolve, (err) => {
       // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
       if (!err._isRouter) return reject(err)
       if (err.type !== 2 /* NavigationFailureType.redirected */) return resolve()

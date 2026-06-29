@@ -1,66 +1,48 @@
 <template>
     <section class="max-w-[700px]">
         <h2 class="numberedHeading">Where I've Experienced</h2>
-        <div class="flex min-h-[450px] sm:min-h-[300px]">
+        <div class="flex min-h-[450px] sm:min-h-[340px]">
             <div class="flex flex-col relative w-max p-0 m-0 list-none">
-                <button @click="actvieTabId = 0">ELEKTROMARKETIM </button>
-                 <button @click="actvieTabId = 1">Umelsan </button>
-               
+                <button
+                    v-for="(job, index) in jobs"
+                    :key="index"
+                    @click="activeTabId = index"
+                    :class="{ 'text-bcColor': activeTabId === index }"
+                >
+                    {{ job.company }}
+                </button>
                 <span
                     class="highLight"
                     :style="{
-                        transform:
-                            'translateY(calc(' + actvieTabId * 42 + 'px))',
+                        transform: 'translateY(calc(' + activeTabId * 42 + 'px))',
                     }"
                 ></span>
             </div>
             <div class="inner">
-                <transition name="fade">
-                    <div id="0" v-if="actvieTabId === 0" class="absolute">
-                        <h3>Frontend Developer</h3>
-                        <p>08-2022 - 06-2023</p>
-                        <div>
-                            <ul>
-                                <li>
-                                    Search Engine Optimization (SEO)
-                                </li>
-                                <li>Vue.js</li>
-                                <li>Nuxt.js </li>
-                                <li>
-                                     JavaScript
-                                </li>
-                                <li>
-                                    BEM
-                                </li>
-                            </ul>
+                <transition name="fade" v-for="(job, index) in jobs" :key="index">
+                    <div v-if="activeTabId === index" class="absolute">
+                        <h3>
+                            {{ job.title }}
+                            <span class="text-bcColor">&nbsp;@ {{ job.company }}</span>
+                        </h3>
+                        <p>{{ job.period }}</p>
+                        <ul>
+                            <li v-for="item in job.bullets" :key="item">
+                                {{ item }}
+                            </li>
+                        </ul>
+                        <div v-if="job.tech && job.tech.length" class="mt-4">
+                            <p class="text-bcLightSlate font-mono text-bcXs mb-2">Technologies:</p>
+                            <div class="flex flex-wrap gap-x-4">
+                                <span
+                                    v-for="t in job.tech"
+                                    :key="t"
+                                    class="font-mono text-bcXs text-bcColor"
+                                >{{ t }}</span>
+                            </div>
                         </div>
                     </div>
                 </transition>
-            
-            </div>
-            <div class="inner">
-                <transition name="fade">
-                    <div id="0" v-if="actvieTabId === 1" class="absolute">
-                        <h3>Software Engineer</h3>
-                        <p>03-2021 - 07-2022</p>
-                        <div>
-                            <ul>
-                                <li>
-                                    Vue js
-                                </li>
-                                <li>express.js</li>
-                                <li>Socket.io </li>
-                                <li>
-                                     JavaScript
-                                </li>
-                                <li>
-                                    JWT
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </transition>
-            
             </div>
         </div>
     </section>
@@ -70,32 +52,43 @@
 export default {
     data() {
         return {
-            actvieTabId: 0,
-            tabContent: [
+            activeTabId: 0,
+            jobs: [
                 {
-                    title: "Student @National Changhua Education University",
-                    period: "May 2012 - June 2015",
-                    headlines: [
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
+                    company: "CloudSigma",
+                    title: "Frontend Developer",
+                    period: "Jan 2024 – Jan 2026",
+                    bullets: [
+                        "Onboarded 3+ external partners by reviewing codebases, customizing repositories, and leading production rollouts end-to-end.",
+                        "Translated stakeholder requirements into scalable feature implementations, balancing technical constraints with business priorities.",
+                        "Collaborated closely with internal and external teams to understand and solve pain points, documenting the process in clear technical guides.",
+                        "Used AI coding assistants as a core part of daily development.",
                     ],
+                    tech: ["JavaScript", "Webpack", "Jira", "Npm", "Figma", "Playwright"],
                 },
                 {
-                    title: "Student @National Center University",
-                    period: "May 2015 - June 2019",
-                    headlines: [
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
-                        "Amet consectetur adipisicing elit. Iureeligendi nesciunt enim",
+                    company: "Elektromarketim",
+                    title: "Frontend Developer",
+                    period: "Aug 2022 – Jan 2023",
+                    bullets: [
+                        "Utilized responsive design principles for usability across various devices.",
+                        "Contributed to the redesign and enhancement of the project.",
+                        "Utilized Figma and Photoshop for designing the newly added interfaces.",
+                        "Wrote unit and end-to-end test suites with Playwright to validate partner integrations before production rollout.",
                     ],
+                    tech: ["JavaScript", "HTML", "CSS", "Nuxt.js", "Bootstrap"],
+                },
+                {
+                    company: "Education",
+                    title: "BSc – Computer Science & Engineering",
+                    period: "Yalova University",
+                    bullets: [
+                        "Bachelor of Science in Computer Science and Engineering.",
+                    ],
+                    tech: [],
                 },
             ],
-            temp: "red",
         };
-    },
-    transition: {
-        name: "fade",
     },
 };
 </script>
@@ -122,21 +115,12 @@ li {
 
 button {
     @apply font-mono items-center w-full h-bcTabHeight px-2 sm:px-5 pt-0 pb-[2px] bg-transparent
-    border-l-2 border-solid border-bcLightestNavy focus:outline-none 
+    border-l-2 border-solid border-bcLightestNavy focus:outline-none
     text-bcXl text-left whitespace-nowrap hover:bg-bcLightNavy focus:bg-bcLightNavy
     hover:text-bcColor focus:text-bcColor transition duration-500 ease-in-out;
 }
 .highLight {
     @apply absolute top-0 left-0 w-[2px] h-bcTabHeight rounded bg-bcColor transition-all delay-100;
-}
-.content {
-    @apply relative w-full h-auto py-[10px] px-1;
-    h3 {
-        @apply mb-[2px] text-bcXl font-medium	leading-tight md:text-bcXxl;
-    }
-    p {
-        @apply mb-6 text-bcLightSlate font-mono text-xs;
-    }
 }
 .inner {
     @apply w-full relative h-auto py-[10px] px-1 ml-2 sm:ml-5;

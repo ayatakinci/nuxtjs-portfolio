@@ -33,14 +33,6 @@
                     </span>
                     {{ link.name }}
                 </NuxtLink>
-                <a
-                    href="/Ayat-Alzaidi-Resume.pdf"
-                    target="_blank"
-                    v-animate-delay:fade-down="500"
-                    class="bigButton text-bcXs ml-4 py-2 px-4"
-                >
-                    Resume
-                </a>
             </div>
         </div>
     </nav>
